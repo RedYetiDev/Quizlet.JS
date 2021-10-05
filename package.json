@@ -1,0 +1,22 @@
+{
+  "name": "quizlet.js",
+  "version": "1.0.0",
+  "description": "Coming Soon...",
+  "main": "quizlet.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "coming_soon"
+  },
+  "keywords": [
+    "Quizlet"
+  ],
+  "author": "RedYetiDev",
+  "license": "MIT",
+  "dependencies": {
+    "got": "^11.8.2",
+    "ws": "^8.2.3"
+  }
+}
