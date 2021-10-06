@@ -85,7 +85,11 @@ class Quizlet extends EventEmitter {
 
         this.emit("connect");
 
-        this.socket.on("message", this.messageHandler)
+        this.pingInterval = setInterval(async() => {
+            await this.socket.send(2);
+        }, 2500)
+
+        this.socket.on("message", this.messageHandler.bind(this))
     }
 
     async connectToSocket(token, sid) {
@@ -141,24 +145,30 @@ class Quizlet extends EventEmitter {
         });
     }
 
-    async handleTeamAssignments() {
-        var assignedTeam;
+    handleTeamAssignments() {
         this.gameState.teams.forEach(team => {
-            if (team.players.includes(this.))
+            if (team.players.includes(this.playerId)) {
+                this.team = team;
+                return;
+            }
         })
-        this.team = assignedTeam
     }
 
-    async messageHandler(m) {
+    messageHandler(m) {
         var mId = m.slice(0, 2)
         if (mId == "42") {
             this.handleGameState(m);
             // Check game statuses
-            this.gameStatus = this.gameState.statuses
-            if (this.gameState.statuses.includes("assign_teams")) {
+            if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing")) {
                 console.log("The game has assigned teams.")
-                this.handleTeamAssignments();
+                this.handleTeamAssignments()
+                console.log(`Your are on team "${this.team.name}"`)
                 return;
+            } else if (this.gameState.statuses = ["lobby"]) {
+                if (this.team) {
+                    console.log("The host has returned to the lobby")
+                }
+                this.team = undefined;
             }
         }
     }
