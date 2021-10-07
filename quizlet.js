@@ -85,11 +85,7 @@ class Quizlet extends EventEmitter {
 
         this.emit("connect");
 
-        this.pingInterval = setInterval(async() => {
-            await this.socket.send(2);
-        }, 2500)
-
-        this.socket.on("message", this.messageHandler.bind(this))
+        this.socket.on("message", await this.messageHandler.bind(this))
     }
 
     async connectToSocket(token, sid) {
@@ -127,17 +123,12 @@ class Quizlet extends EventEmitter {
         this.socket.send(`42["player-join",{"username":"${this.name}","image":"${this.userImage}"}]`)
         await new Promise(resolve => {
             this.socket.once("message", (m) => {
-                this.handleGameState(m);
+                this.gameState = JSON.parse(m.slice(2))[1]
                 resolve()
             })
         })
         return;
     }
-
-    handleGameState(gameState) {
-        this.gameState = JSON.parse(gameState.slice(2))[1]
-    }
-
     getAnswers(terms) {
         this.answers = [];
         terms.forEach((term) => {
@@ -154,22 +145,46 @@ class Quizlet extends EventEmitter {
         })
     }
 
-    messageHandler(m) {
-        var mId = m.slice(0, 2)
-        if (mId == "42") {
-            this.handleGameState(m);
+    async messageHandler(m) {
+        if (m == 2) {
+            await this.socket.send("3");
+            console.log("Ping Successful");
+            return;
+        }
+        var mType = JSON.parse(m.slice(2))[0]
+        if (mType == "current-game-state-and-set" || mType == "current-game-state") {
+            this.gameState = JSON.parse(m.slice(2))[1];
             // Check game statuses
-            if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing")) {
+            if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing") && this.team == undefined) {
                 console.log("The game has assigned teams.")
                 this.handleTeamAssignments()
                 console.log(`Your are on team "${this.team.name}"`)
                 return;
-            } else if (this.gameState.statuses = ["lobby"]) {
+            } else if (this.gameState.statuses == ["lobby"]) {
                 if (this.team) {
                     console.log("The host has returned to the lobby")
                 }
                 this.team = undefined;
+            } else if (this.gameState.statuses.includes('ended')) {
+                console.log("The Game Has Ended")
+                // Dont do anything
+            } else if (this.gameState.statuses.includes("playing") && this.team) {
+                console.log("Game Playing, answering...")
+                // Emit Answer Event, for now do auto
+                await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round || 0},"termId":${this.team.}}]`)
             }
+        } else if (mType == "matchteam.new-streak") {
+            console.log("Match Team Has a new streak")
+            // We don't need to do anything here
+        } else if (mType == "matchteam.new-answer") {
+
+            var pm = JSON.parse(m.slice(2))[1]
+            if (pm.answer.playerId == this.playerId) {
+                console.log("You Answered Correctly")
+                this.round = pm.roundNum
+            }
+        } else {
+            console.log(m.toString())
         }
     }
 }
