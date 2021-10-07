@@ -2,7 +2,6 @@
 const got = require("got");
 const ws = require("ws");
 const EventEmitter = require("events");
-const { resolve } = require("path");
 
 class Quizlet extends EventEmitter {
     constructor(pin, name, userImage) {
