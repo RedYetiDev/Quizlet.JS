@@ -9,9 +9,10 @@ class Quizlet extends EventEmitter {
         this.userImage = userImage || "https://quizlet.com/favicon.ico"
         this.pin = pin;
         this.name = name;
-        this.game = {};
+        //this.game = {};
         this.round = 0;
-        this.streak = 0;
+        this.team = undefined;
+        // this.streak = 0;
     }
 
     /**
@@ -156,6 +157,13 @@ class Quizlet extends EventEmitter {
         }
     }
 
+    async answer(a) {
+
+        var a1 = this.gameState.terms.filter(t => t.definition == a)[0].id
+
+        await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round},"termId":${a1}, "submissionTime": ${Date.now()}}]`)
+    }
+
     async messageHandler(m) {
         if (m == 2) {
             await this.socket.send("3");
@@ -185,26 +193,23 @@ class Quizlet extends EventEmitter {
                 var possibleAnswers = [];
 
                 this.team.streaks[0].roundTerms[0].forEach(id => {
-                    possibleAnswers.push(this.gameState.terms.filter(term => term.id == id).definition)
+                    possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
                 })
-
-                console.log(this.round)
 
                 var term = this.gameState.terms.filter(term => this.team.streaks[0].prompts[this.round] == term.id)[0]
 
-                this.emit('question', ("question will go here", this.team.streaks[0].roundTerms[0], this.team.streaks[0].prompts[this.round]));
-                await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round},"termId":${his.team.streaks[0].prompts[this.round]}, "submissionTime": ${Date.now()}}]`)
+                this.emit('question', term.word, possibleAnswers, term.definition);
+                //this.answer();
             }
         } else if (mType == "matchteam.new-streak") {
             console.log("Match Team Has a new streak")
             // We don't need to do anything here
-            this.streak += 1
+            // this.streak += 1
         } else if (mType == "matchteam.new-answer") {
 
             var pm = JSON.parse(m.slice(2))[1]
             if (pm.answer.playerId == this.playerId) {
                 console.log("You Answered, was correct: " + pm.answer.isCorrect)
-                console.log(pm)
                 this.round = pm.roundNum + 1          
             }
         } else {
