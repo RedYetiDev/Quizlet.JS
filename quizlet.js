@@ -2,7 +2,6 @@
 const got = require("got");
 const ws = require("ws");
 const EventEmitter = require("events");
-const { resolve } = require("path");
 
 class Quizlet extends EventEmitter {
     constructor(pin, name, userImage) {
@@ -11,6 +10,8 @@ class Quizlet extends EventEmitter {
         this.pin = pin;
         this.name = name;
         this.game = {};
+        this.round = 0;
+        this.streak = 0;
     }
 
     /**
@@ -123,7 +124,7 @@ class Quizlet extends EventEmitter {
         this.socket.send(`42["player-join",{"username":"${this.name}","image":"${this.userImage}"}]`)
         await new Promise(resolve => {
             this.socket.once("message", (m) => {
-                this.gameState = JSON.parse(m.slice(2))[1]
+                this.handleGameState(m)
                 resolve()
             })
         })
@@ -145,6 +146,16 @@ class Quizlet extends EventEmitter {
         })
     }
 
+    handleGameState(m) {
+        this.gameState = JSON.parse(m.slice(2))[1];
+        if (JSON.parse(m.slice(2))[0] == "game-error") {
+            throw new Error('Invalid Game State: ' + this.gameState.type)
+        }
+        if (this.gameState.teams) {
+            this.handleTeamAssignments()
+        }
+    }
+
     async messageHandler(m) {
         if (m == 2) {
             await this.socket.send("3");
@@ -152,12 +163,12 @@ class Quizlet extends EventEmitter {
             return;
         }
         var mType = JSON.parse(m.slice(2))[0]
-        if (mType == "current-game-state-and-set" || mType == "current-game-state") {
-            this.gameState = JSON.parse(m.slice(2))[1];
+        if (mType == "current-game-state-and-set" || mType == "current-game-state" || mType == "replay-game") {
+            this.handleGameState(m);
             // Check game statuses
             if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing") && this.team == undefined) {
                 console.log("The game has assigned teams.")
-                this.handleTeamAssignments()
+                this.handleTeamAssignments(m)
                 console.log(`Your are on team "${this.team.name}"`)
                 return;
             } else if (this.gameState.statuses == ["lobby"]) {
@@ -171,17 +182,30 @@ class Quizlet extends EventEmitter {
             } else if (this.gameState.statuses.includes("playing") && this.team) {
                 console.log("Game Playing, answering...")
                 // Emit Answer Event, for now do auto
-                await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round || 0},"termId":${this.team.}}]`)
+                var possibleAnswers = [];
+
+                this.team.streaks[0].roundTerms[0].forEach(id => {
+                    possibleAnswers.push(this.gameState.terms.filter(term => term.id == id).definition)
+                })
+
+                console.log(this.round)
+
+                var term = this.gameState.terms.filter(term => this.team.streaks[0].prompts[this.round] == term.id)[0]
+
+                this.emit('question', ("question will go here", this.team.streaks[0].roundTerms[0], this.team.streaks[0].prompts[this.round]));
+                await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round},"termId":${his.team.streaks[0].prompts[this.round]}, "submissionTime": ${Date.now()}}]`)
             }
         } else if (mType == "matchteam.new-streak") {
             console.log("Match Team Has a new streak")
             // We don't need to do anything here
+            this.streak += 1
         } else if (mType == "matchteam.new-answer") {
 
             var pm = JSON.parse(m.slice(2))[1]
             if (pm.answer.playerId == this.playerId) {
-                console.log("You Answered Correctly")
-                this.round = pm.roundNum
+                console.log("You Answered, was correct: " + pm.answer.isCorrect)
+                console.log(pm)
+                this.round = pm.roundNum + 1          
             }
         } else {
             console.log(m.toString())
