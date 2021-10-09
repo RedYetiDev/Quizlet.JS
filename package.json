@@ -1,19 +1,21 @@
 {
   "name": "quizlet.js",
   "version": "1.0.0",
-  "description": "Coming Soon...",
+  "description": "Quizlet.JS is a node.js client for Quizlet Live",
   "main": "quizlet.js",
-  "scripts": {
-    "test": "node test.js"
-  },
   "repository": {
     "type": "git",
-    "url": "coming_soon"
+    "url": "https://github.com/RedYetiDev/Quizlet.JS.git"
   },
+  "homepage": "https://github.com/RedYetiDev/Quizlet.JS#readme",
   "keywords": [
-    "Quizlet"
+    "Quizlet.JS",
+    "Quizlet",
+    "Live",
+    "Bot"
   ],
-  "author": "RedYetiDev",
+  "bugs": "https://github.com/RedYetiDev/Quizlet.JS/issues",
+  "author": "RedYetiDev <redyetidev@gmail.com> (https://github.com/redyetidev)",
   "license": "MIT",
   "dependencies": {
     "got": "^11.8.2",
