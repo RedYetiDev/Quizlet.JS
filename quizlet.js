@@ -9,15 +9,11 @@ class Quizlet extends EventEmitter {
         this.userImage = userImage || "https://quizlet.com/favicon.ico"
         this.pin = pin;
         this.name = name;
-        //this.game = {};
         this.round = 0;
-        this.team = undefined;
-        // this.streak = 0;
+        this.team = null;
+        this.streak = 0;
+        this.rejoin = this.connectWithName;
     }
-
-    /**
-     @function generateToken Under Development
-     */
 
     async getTokenAndId() {
         var data = await got("https://quizlet.com/live", {
@@ -45,7 +41,6 @@ class Quizlet extends EventEmitter {
     }
 
     async joinGame() {
-        // Check if game exists
         this.checkGameInstance()
 
         var {token, playerId} = await this.getTokenAndId();
@@ -74,12 +69,8 @@ class Quizlet extends EventEmitter {
         }).text();
 
         this.gameData = JSON.parse(data.split(/42(.+)/)[1])[1]
-
-        console.log(`Got Game Data. The set is: "${this.gameData.set.title}".`)
         
         this.getAnswers(this.gameData.terms);
-
-        console.log(this.answers)
 
         await this.connectToSocket(token, sid);
         
@@ -99,33 +90,31 @@ class Quizlet extends EventEmitter {
 
         await new Promise(resolve => {
             this.socket.on("open", () => {
-                console.log("Connected to Quizlet socket")
-    
-                // Test probing
-    
                 this.socket.send("2probe")
                 this.socket.once("message", (m) => {
                     if (m != "3probe") throw new Error("Socket probing failed. Expected `3probe`, got `" + m + "`")
-                    console.log("Probing successful")
                     resolve()
                 })
             })
         })
 
         await new Promise(resolve => {
-            console.log("Sending...")
             this.socket.send("5")
             resolve()
         })
 
         return;
     }
-
+    
     async connectWithName() {
         this.socket.send(`42["player-join",{"username":"${this.name}","image":"${this.userImage}"}]`)
         await new Promise(resolve => {
             this.socket.once("message", (m) => {
                 this.handleGameState(m)
+                this.answerTypes = {
+                    prompt: this.gameState.options.promptWith == 2 ? "definition" : "word",
+                    answer: this.gameState.options.answerWith == 2 ? "definition" : "word"
+                }
                 resolve()
             })
         })
@@ -161,60 +150,86 @@ class Quizlet extends EventEmitter {
 
         var a1 = this.gameState.terms.filter(t => t.definition == a)[0].id
 
-        await this.socket.send(`42["matchteam.submit-answer",{"streak":0,"round":${this.round},"termId":${a1}, "submissionTime": ${Date.now()}}]`)
+        await this.socket.send(`42["matchteam.submit-answer",{"streak":${this.streak},"round":${this.round},"termId":${a1}, "submissionTime": ${Date.now()}}]`)
     }
 
     async messageHandler(m) {
         if (m == 2) {
             await this.socket.send("3");
-            console.log("Ping Successful");
             return;
         }
         var mType = JSON.parse(m.slice(2))[0]
         if (mType == "current-game-state-and-set" || mType == "current-game-state" || mType == "replay-game") {
             this.handleGameState(m);
             // Check game statuses
-            if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing") && this.team == undefined) {
-                console.log("The game has assigned teams.")
+            if (!this.gameState.players[this.playerId]) {
+                this.emit('disconnect');
+                return;
+            }
+            if (this.gameState.statuses.includes("assign_teams") && this.team == null) {
                 this.handleTeamAssignments(m)
-                console.log(`Your are on team "${this.team.name}"`)
+                var teamPlayers = []
+                this.gameState.players.filter(p => this.team.players.includes(id)).forEach(player => teamPlayers.push(player.username))
+                this.emit("teamAssignments", this.team.name, teamPlayers);
                 return;
             } else if (this.gameState.statuses == ["lobby"]) {
-                if (this.team) {
-                    console.log("The host has returned to the lobby")
-                }
-                this.team = undefined;
+                this.team = null;
             } else if (this.gameState.statuses.includes('ended')) {
-                console.log("The Game Has Ended")
-                // Dont do anything
+                var didWin = false;
+                if (this.team.streaks[this.streak].answers.length == this.team.streaks[this.streak].prompts.length) {
+                    didWin = true
+                }
+                this.emit("gameOver", didWin)
             } else if (this.gameState.statuses.includes("playing") && this.team) {
-                console.log("Game Playing, answering...")
-                // Emit Answer Event, for now do auto
-                var possibleAnswers = [];
-
-                this.team.streaks[0].roundTerms[0].forEach(id => {
-                    possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
-                })
-
-                var term = this.gameState.terms.filter(term => this.team.streaks[0].prompts[this.round] == term.id)[0]
-
-                this.emit('question', term.word, possibleAnswers, term.definition);
-                //this.answer();
+                this.runQuestion();
             }
         } else if (mType == "matchteam.new-streak") {
-            console.log("Match Team Has a new streak")
             // We don't need to do anything here
-            // this.streak += 1
+            if (this.team.players.includes(JSON.parse(m.slice(2))[1].playerId)) {
+                this.team.streaks.push(JSON.parse(m.slice(2))[1].streak)
+                this.streak += 1;
+                this.round = 0;
+                this.emit("incorrectAnswer");
+            }
         } else if (mType == "matchteam.new-answer") {
-
             var pm = JSON.parse(m.slice(2))[1]
-            if (pm.answer.playerId == this.playerId) {
-                console.log("You Answered, was correct: " + pm.answer.isCorrect)
-                this.round = pm.roundNum + 1          
+            if (this.team.players.includes(pm.answer.playerId)) {
+                this.emit('answer', pm.answer.isCorrect, pm.answer.playerId == this.playerId)
+                if (pm.answer.isCorrect) {
+                    this.round = pm.roundNum + 1
+                    if (this.gameState.type == 1) {
+                        this.runQuestion()
+                    }
+                }
+            }
+        }
+    }
+
+    async runQuestion() {
+        var possibleAnswers = [];
+        if (this.gameState.type == 2) {
+            this.team.streaks[this.streak].roundTerms[0].forEach(id => {
+                possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
+            })
+        } else if (this.gameState.type == 1) {
+            this.team.streaks[this.streak].terms[this.playerId].forEach(id => {
+                possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
+            })
+            if (!this.team.streaks[this.streak].terms[this.playerId].includes(this.team.streaks[this.streak].prompts[this.round])) {
+                return;
             }
         } else {
-            console.log(m.toString())
+            throw new Error("Invalid Game Type: " + this.gameState.type)
         }
+
+        var term = this.gameState.terms.filter(term => this.team.streaks[this.streak].prompts[this.round] == term.id)[0]
+
+        this.emit('question', term.word, possibleAnswers, term.definition);
+    }
+
+    async leave() {
+        await this.socket.disconnect();
+        this.emit('disconnect');
     }
 }
 
