@@ -12,10 +12,10 @@ class Quizlet extends EventEmitter {
         this.round = 0;
         this.team = null;
         this.streak = 0;
-        this.rejoin = this.connectWithName;
+        this.rejoin = this.#connectWithName;
     }
 
-    async getTokenAndId() {
+    async #getTokenAndId() {
         var data = await got("https://quizlet.com/live", {
             headers: {
                 "user-agent": "quizlet.js"
@@ -28,7 +28,7 @@ class Quizlet extends EventEmitter {
         }
     }
 
-    async checkGameInstance() {
+    async #checkGameInstance() {
         var data = await got(`https://quizlet.com/webapi/3.2/game-instances?filters=%7B%22gameCode%22%3A%22${this.pin}%22%2C%22isInProgress%22%3Atrue%2C%22isDeleted%22%3Afalse%7D&perPage=500`, {
             headers: {
                 "user-agent": "quizlet.js"
@@ -41,9 +41,9 @@ class Quizlet extends EventEmitter {
     }
 
     async joinGame() {
-        this.checkGameInstance()
+        this.#checkGameInstance()
 
-        var {token, playerId} = await this.getTokenAndId();
+        var {token, playerId} = await this.#getTokenAndId();
         this.playerId = playerId;
         var data = await got(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nmp37wm`, {
             headers: {
@@ -68,20 +68,16 @@ class Quizlet extends EventEmitter {
             }
         }).text();
 
-        this.gameData = JSON.parse(data.split(/42(.+)/)[1])[1]
+        await this.#connectToSocket(token, sid);
         
-        this.getAnswers(this.gameData.terms);
-
-        await this.connectToSocket(token, sid);
-        
-        await this.connectWithName();
+        await this.#connectWithName();
 
         this.emit("connect");
 
-        this.socket.on("message", await this.messageHandler.bind(this))
+        this.socket.on("message", await this.#messageHandler.bind(this))
     }
 
-    async connectToSocket(token, sid) {
+    async #connectToSocket(token, sid) {
         this.socket = new ws(`wss://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=websocket&sid=${sid}`, [], {
             headers: {
                 'user-agent': 'quizlet.js'
@@ -106,11 +102,11 @@ class Quizlet extends EventEmitter {
         return;
     }
     
-    async connectWithName() {
+    async #connectWithName() {
         this.socket.send(`42["player-join",{"username":"${this.name}","image":"${this.userImage}"}]`)
         await new Promise(resolve => {
             this.socket.once("message", (m) => {
-                this.handleGameState(m)
+                this.#handleGameState(m)
                 this.answerTypes = {
                     prompt: this.gameState.options.promptWith == 2 ? "definition" : "word",
                     answer: this.gameState.options.answerWith == 2 ? "definition" : "word"
@@ -120,14 +116,8 @@ class Quizlet extends EventEmitter {
         })
         return;
     }
-    getAnswers(terms) {
-        this.answers = [];
-        terms.forEach((term) => {
-            this.answers.push(term.definition)
-        });
-    }
 
-    handleTeamAssignments() {
+    #handleTeamAssignments() {
         this.gameState.teams.forEach(team => {
             if (team.players.includes(this.playerId)) {
                 this.team = team;
@@ -136,13 +126,13 @@ class Quizlet extends EventEmitter {
         })
     }
 
-    handleGameState(m) {
+    #handleGameState(m) {
         this.gameState = JSON.parse(m.slice(2))[1];
         if (JSON.parse(m.slice(2))[0] == "game-error") {
             throw new Error('Invalid Game State: ' + this.gameState.type)
         }
         if (this.gameState.teams) {
-            this.handleTeamAssignments()
+            this.#handleTeamAssignments()
         }
     }
 
@@ -153,21 +143,21 @@ class Quizlet extends EventEmitter {
         await this.socket.send(`42["matchteam.submit-answer",{"streak":${this.streak},"round":${this.round},"termId":${a1}, "submissionTime": ${Date.now()}}]`)
     }
 
-    async messageHandler(m) {
+    async #messageHandler(m) {
         if (m == 2) {
             await this.socket.send("3");
             return;
         }
         var mType = JSON.parse(m.slice(2))[0]
         if (mType == "current-game-state-and-set" || mType == "current-game-state" || mType == "replay-game") {
-            this.handleGameState(m);
+            this.#handleGameState(m);
             // Check game statuses
             if (!this.gameState.players[this.playerId]) {
                 this.emit('disconnect');
                 return;
             }
             if (this.gameState.statuses.includes("assign_teams") && this.team == null) {
-                this.handleTeamAssignments(m)
+                this.#handleTeamAssignments(m)
                 var teamPlayers = []
                 this.gameState.players.filter(p => this.team.players.includes(id)).forEach(player => teamPlayers.push(player.username))
                 this.emit("teamAssignments", this.team.name, teamPlayers);
@@ -181,7 +171,7 @@ class Quizlet extends EventEmitter {
                 }
                 this.emit("gameOver", didWin)
             } else if (this.gameState.statuses.includes("playing") && this.team) {
-                this.runQuestion();
+                this.#runQuestion();
             }
         } else if (mType == "matchteam.new-streak") {
             // We don't need to do anything here
@@ -189,23 +179,22 @@ class Quizlet extends EventEmitter {
                 this.team.streaks.push(JSON.parse(m.slice(2))[1].streak)
                 this.streak += 1;
                 this.round = 0;
-                this.emit("incorrectAnswer");
             }
         } else if (mType == "matchteam.new-answer") {
             var pm = JSON.parse(m.slice(2))[1]
             if (this.team.players.includes(pm.answer.playerId)) {
-                this.emit('answer', pm.answer.isCorrect, pm.answer.playerId == this.playerId)
+                this.emit('answer', pm.answer.isCorrect, this.gameState.players[pm.answer.playerId.toString()].username)
                 if (pm.answer.isCorrect) {
                     this.round = pm.roundNum + 1
                     if (this.gameState.type == 1) {
-                        this.runQuestion()
+                        this.#runQuestion()
                     }
                 }
             }
         }
     }
 
-    async runQuestion() {
+    async #runQuestion() {
         var possibleAnswers = [];
         if (this.gameState.type == 2) {
             this.team.streaks[this.streak].roundTerms[0].forEach(id => {
