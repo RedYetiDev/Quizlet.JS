@@ -2,10 +2,9 @@
 ##### Version 0.0.1 Alpha
 
 
-## Installing from NPM
-```bash
-npm i Quizlet.JS
-```
+## Installing from [NPM](https://www.npmjs.com/package/quizlet.js)
+[![Quizlet.JS](https://nodei.co/npm/quizlet.js.png?mini=true)](https://www.npmjs.com/package/quizlet.js)
+
 ---
 
 ## Setup
@@ -54,7 +53,7 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
 ## Functions
 
 - ### `contructor`
-    The `contructor` function (the root function) creates a new instance of a `Quizlet.JS` client. This function accepts 2 parameters: The game pin (`Int` or `String`), and the client name (`String`). This must be called with `new` and returns a instance of `Quizlet`
+    The `contructor` function (the root function) creates a new instance of a `Quizlet.JS` client. This function requires 2 parameters: The game pin (`Int` or `String`), and the client name (`String`). An optional parameter is a image to use (`String`, `URL`)<sup><a>2</a></sup>. This must be called with `new` and returns a instance of `Quizlet`
 
 - ### `joinGame`
     The `joinGame` function joins the game, the function accepts no arguments and returns nothing.
@@ -72,3 +71,10 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
 - The Bot must rejoin the game in when the host hits `replay` at the end of the game. (Not using the `rejoin` function)
 
 If you find any new bugs, please report an issue or a pull request. If you have any questions or comments, you can either create an issue, or email me at [redyetidev@gmail.com](mailto:redyetidev@gmail.com?subject=Quizlet.JS)
+
+
+---
+## Footnotes
+<a>1</a>: The `gameStart` event has no real purpose, becuase it would be called when the first question is sent, meaning that `gameStart`, and `question` would be called at the same time.
+
+<a>2</a>: The `userImage` param needs a little bit more testing and may not work.
