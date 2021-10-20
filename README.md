@@ -1,4 +1,5 @@
 # Quizlet.JS
+> **Better** documentation coming to [**quizlet.js.org**](//quizlet.js.org) soon.
 ##### Version 0.0.1 Alpha
 
 
