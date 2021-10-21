@@ -69,9 +69,13 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
     The `rejoin` functions rejoins the game after an exit, no arguments or returns.
 
 ## Bugs
-- The Bot must rejoin the game in when the host hits `replay` at the end of the game. (Not using the `rejoin` function)
+- The Bot must rejoin the game in when the host hits `replay` at the end of the game. (By ending and restarting the script)
 
 If you find any new bugs, please report an issue or a pull request. If you have any questions or comments, you can either create an issue, or email me at [redyetidev@gmail.com](mailto:redyetidev@gmail.com?subject=Quizlet.JS)
+
+## Features Needing Testing
+- Need to test how the client reacts to duplicate terms (If multiple terms have the same answer or same name).
+- Game replay testing.
 
 
 ---
