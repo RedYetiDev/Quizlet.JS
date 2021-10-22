@@ -1,8 +1,9 @@
 remote_theme: pmarsceill/just-the-docs
 title: Quizlet.JS
 description: Quizlet.JS Desc
-# baseurl: ""
-url: "https://quizlet.js.org" 
+domain: quizlet.js.org
+baseurl: /
+url: https://quizlet.js.org
 permalink: pretty
 exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"
 , "docs/tests/"
@@ -29,37 +30,18 @@ search:
   # Enable or disable the search button that appears in the bottom right corner of every page
   # Supports true or false (default)
   button: false
-
-# Enable or disable heading anchors
 heading_anchors: true
-
-# Aux links for the upper right navigation
 aux_links:
   "Quizlet.JS on GitHub":
     - "//github.com/RedYetiDev/Quizlet.JS"
-
-# Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: false
-
-# Sort order for navigation links
-# nav_sort: case_insensitive # default, equivalent to nil
 nav_sort: case_sensitive # Capital letters sorted before lowercase
-
-# Footer content
-# appears at the bottom of every page's main content
-
-# Back to top link
 back_to_top: true
 back_to_top_text: "Back to top"
 
 footer_content: "Copyright &copy; 2021 RedYetiDev. Distributed by an <a href=\"https://github.com/RedYetiDev/Quizlet.JS/tree/master/LICENSE\">MIT license.</a>"
-
-# Footer last edited timestamp
-last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
-
-# Color scheme currently only supports "dark", "light"/nil (default), or a custom scheme that you define
-color_scheme: nil
+last_edit_timestamp: false # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+color_scheme: dark
 
 # Google Analytics Tracking (optional)
 # e.g, UA-1234567-89
