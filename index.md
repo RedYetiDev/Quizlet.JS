@@ -3,7 +3,7 @@ layout: default
 title: Home
 nav_order: 1
 description: "Quizlet.JS Is a Node.JS Client for Quizlet Live"
-permalink: /
+
 ---
 
 # Quizlet.JS
