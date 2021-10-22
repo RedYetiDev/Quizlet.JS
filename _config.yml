@@ -1,4 +1,5 @@
 remote_theme: pmarsceill/just-the-docs
+theme: just-the-docs
 title: Quizlet.JS
 description: Quizlet.JS is a node.js client for Quizlet Live
 domain: quizlet.js.org
@@ -28,7 +29,6 @@ back_to_top_text: "Back to top"
 
 footer_content: "Copyright &copy; 2021 RedYetiDev. Distributed by an <a href=\"https://github.com/RedYetiDev/Quizlet.JS/tree/master/LICENSE\">MIT license.</a>"
 last_edit_timestamp: false
-color_scheme: dark
 plugins:
   - jekyll-seo-tag
 kramdown:

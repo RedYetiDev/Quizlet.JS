@@ -3,7 +3,7 @@ layout: default
 title: Answer
 nav_order: 4
 description: "Quizlet.JS Answer Function"
-permalink: /Answer
+permalink: /AnswerFunction
 parent: Functions
 ---
 
