@@ -1,4 +1,4 @@
-theme: "just-the-docs"
+remote_theme: pmarsceill/just-the-docs
 title: Quizlet.JS
 description: Quizlet.JS Desc
 baseurl: "" # the subpath of your site, e.g. /blog
