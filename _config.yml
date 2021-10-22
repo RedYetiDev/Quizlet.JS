@@ -2,15 +2,13 @@ remote_theme: pmarsceill/just-the-docs
 title: Quizlet.JS
 description: Quizlet.JS Desc
 # baseurl: ""
-# url: "https://quizlet.js.org" 
+url: "https://quizlet.js.org" 
 permalink: pretty
 exclude: ["node_modules/", "*.gemspec", "*.gem", "Gemfile", "Gemfile.lock", "package.json", "package-lock.json",  "script/", "LICENSE.txt", "lib/", "bin/", "README.md", "Rakefile"
 , "docs/tests/"
 ]
 search_enabled: true
 search:
-  # Split pages into sections that can be searched individually
-  # Supports 1 - 6, default: 2
   heading_level: 2
   # Maximum amount of previews per search result
   # Default: 3
@@ -65,8 +63,8 @@ color_scheme: nil
 
 # Google Analytics Tracking (optional)
 # e.g, UA-1234567-89
-ga_tracking: UA-2709176-10
-ga_tracking_anonymize_ip: true # Use GDPR compliant Google Analytics settings (true/nil by default)
+## ga_tracking: UA-2709176-10
+ga_tracking_anonymize_ip: true
 
 plugins:
   - jekyll-seo-tag
