@@ -11,7 +11,6 @@ class Quizlet extends EventEmitter {
         if (!name && !opt.accountName) console.warn('No name provided, defaulting to "Quizlet.JS Bot"')
         this.name = name || "Quizlet.JS Bot";
         this.round = 0;
-        this.team = null;
         this.streak = 0;
         this.userImage = opt.userImage || "https://quizlet.com/favicon.ico"
         if (!this.userImage.match(/^https?:\/\//g)) this.userImage = `https://${this.userImage}`
@@ -142,7 +141,7 @@ class Quizlet extends EventEmitter {
             if (this.gameState.type = "ERROR_TYPES.DUPLICATE_PLAYER_NAME") throw new Error(`Duplicate player name; The name "${this.name}" is already in use.`)
             throw new Error('Invalid Game State: ' + this.gameState.type)
         }
-        if (this.gameState.teams) {
+        if (this.gameState.teams && this.team) {
             this.#handleTeamAssignments()
         }
     }
@@ -160,17 +159,22 @@ class Quizlet extends EventEmitter {
             return;
         }
         var mType = JSON.parse(m.slice(2))[0]
-        if (mType == "current-game-state-and-set" || mType == "current-game-state" || mType == "replay-game") {
+        if (mType == "replay-game") {
+            this.emit('replay');
+            this.#handleGameState(m);
+            this.team = undefined;
+
+        } else if (mType == "current-game-state-and-set" || mType == "current-game-state") {
             this.#handleGameState(m);
             // Check game statuses
             if (!this.gameState.players[this.playerId]) {
                 this.emit('disconnect');
                 return;
             }
-            if (this.gameState.statuses.includes("assign_teams") && this.team == null) {
-                this.#handleTeamAssignments(m)
+            if (this.gameState.statuses.includes("assign_teams") && !this.team) {
+                this.#handleTeamAssignments();
                 var teamPlayers = []
-                this.gameState.players.filter(p => this.team.players.includes(id)).forEach(player => teamPlayers.push(player.username))
+                Object.values(this.gameState.players).filter(p => this.team.players.includes(p.id)).forEach(player => teamPlayers.push(player.username))
                 this.emit("teamAssignments", this.team.name, teamPlayers);
                 return;
             } else if (this.gameState.statuses == ["lobby"]) {
