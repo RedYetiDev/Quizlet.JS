@@ -1,2 +1,4 @@
 User-Agent: *
 disallow: /404
+
+Sitemap: https://quizlet.js.org/sitemap.xml
