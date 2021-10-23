@@ -1,13 +1,13 @@
 ---
 layout: default
-title: answer
+title: Answer
 nav_order: 5
 description: "Quizlet.JS Answer Event"
 permalink: /AnswerEvent
 parent: Events
 ---
 
-# Quizlet.JS answer Event
+# Quizlet.JS `answer` Event
 
 ## Overview
 This event is emitted when a team member answers a question.

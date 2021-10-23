@@ -7,7 +7,7 @@ permalink: /Connect
 parent: Events
 ---
 
-# Quizlet.JS Connect Event
+# Quizlet.JS `connect` Event
 
 ## Overview
 This event signifies the client connecting to the game.

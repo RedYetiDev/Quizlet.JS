@@ -7,7 +7,7 @@ permalink: /gameOver
 parent: Events
 ---
 
-# Quizlet.JS gameOver Event
+# Quizlet.JS `gameOver` Event
 
 ## Overview
 This event is emitted when the game ends.

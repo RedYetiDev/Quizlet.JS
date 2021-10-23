@@ -7,7 +7,7 @@ permalink: /teamAssignments
 parent: Events
 ---
 
-# Quizlet.JS teamAssignments Event
+# Quizlet.JS `teamAssignments` Event
 
 ## Overview
 This event is emitted when the host assigns teams.

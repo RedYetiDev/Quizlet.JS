@@ -1,13 +1,13 @@
 ---
 layout: default
-title: question
+title: Question
 nav_order: 6
 description: "Quizlet.JS Question Event"
-permalink: /question
+permalink: /Question
 parent: Events
 ---
 
-# Quizlet.JS question Event
+# Quizlet.JS `question` Event
 
 ## Overview
 This event is emitted when a question is sent to the client

@@ -7,6 +7,7 @@ permalink: /
 ---
 
 # Quizlet.JS
+> #### Version 1.0
 
 ### Table Of Contents:
 

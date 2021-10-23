@@ -7,7 +7,7 @@ permalink: /AnswerFunction
 parent: Functions
 ---
 
-# Quizlet.JS Answer Function
+# Quizlet.JS `answer` Function
 
 ## Overview
 This function tells the client to answer a question.

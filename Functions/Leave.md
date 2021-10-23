@@ -7,13 +7,13 @@ permalink: /Leave
 parent: Functions
 ---
 
-# Quizlet.JS Leave Function
+# Quizlet.JS `leave` Function
 
 ## Overview
 This function tells the client to leave the game.
 
 ## Using
-This function accepts *no* arguments and returns *nothing*. After this function is run, the client is no longer in the game, but can rejoin using the [**`rejoin`**](Rejoin) function.
+This function accepts *no* arguments and returns *nothing*. After this function is run, the client will disconnect from the game. **Warning: Once this is run, you *CAN NOT* rejoin the game**
 
 ## Example
 ```js

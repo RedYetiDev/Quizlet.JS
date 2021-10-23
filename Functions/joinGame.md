@@ -7,7 +7,7 @@ permalink: /joinGame
 parent: Functions
 ---
 
-# Quizlet.JS joinGame Function
+# Quizlet.JS `joinGame` Function
 
 
 ## Overview

@@ -7,7 +7,7 @@ permalink: /Disconnect
 parent: Events
 ---
 
-# Quizlet.JS Disconnect Event
+# Quizlet.JS `disconnect` Event
 
 ## Overview
 This event signifies the client disconnecting from the game. The event does not return anything.
