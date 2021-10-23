@@ -162,16 +162,18 @@ class Quizlet extends EventEmitter {
         if (mType == "replay-game") {
             this.emit('replay');
             this.#handleGameState(m);
-            this.team = undefined;
-
-        } else if (mType == "current-game-state-and-set" || mType == "current-game-state") {
+            this.streak = 0;
+            this.round = 0;
+            this.hasGameEnded = false;
+        }
+        if (mType == "current-game-state-and-set" || mType == "current-game-state") {
             this.#handleGameState(m);
             // Check game statuses
             if (!this.gameState.players[this.playerId]) {
                 this.emit('disconnect');
                 return;
             }
-            if (this.gameState.statuses.includes("assign_teams") && !this.team) {
+            if (this.gameState.statuses.includes("assign_teams") && !this.gameState.statuses.includes("playing")) {
                 this.#handleTeamAssignments();
                 var teamPlayers = []
                 Object.values(this.gameState.players).filter(p => this.team.players.includes(p.id)).forEach(player => teamPlayers.push(player.username))
@@ -179,14 +181,15 @@ class Quizlet extends EventEmitter {
                 return;
             } else if (this.gameState.statuses == ["lobby"]) {
                 this.team = null;
-            } else if (this.gameState.statuses.includes('ended')) {
+            } else if (this.gameState.statuses.includes("playing") && !this.gameState.statuses.includes('ended') && this.team) {
+                this.#runQuestion();
+            } else if (this.gameState.statuses.includes('ended') && !this.hasGameEnded) {
+                this.hasGameEnded = true;
                 var didWin = false;
                 if (this.team.streaks[this.streak].answers.length == this.team.streaks[this.streak].prompts.length) {
                     didWin = true
                 }
                 this.emit("gameOver", didWin)
-            } else if (this.gameState.statuses.includes("playing") && this.team) {
-                this.#runQuestion();
             }
         } else if (mType == "matchteam.new-streak") {
             // We don't need to do anything here
@@ -220,6 +223,7 @@ class Quizlet extends EventEmitter {
                 possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
             })
             if (!this.team.streaks[this.streak].terms[this.playerId].includes(this.team.streaks[this.streak].prompts[this.round])) {
+                // This is emitted when the question belongs to another player, but is also emitted when there is some kind of invalid streak/round error.
                 return;
             }
         } else {
