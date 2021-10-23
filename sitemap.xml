@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://quizlet.js.org/</loc>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Installing</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Setup</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Events</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Connect</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Disconnect</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/teamAssignments</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/gameOver</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/AnswerEvent</loc>
+  <lastmod>2021-10-23T14:43:33+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Question</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Replay</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Using</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Examples</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Functions</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Constructor</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/joinGame</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/AnswerFunction</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Leave</loc>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>
