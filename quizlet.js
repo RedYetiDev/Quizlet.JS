@@ -4,22 +4,41 @@ const ws = require("ws");
 const EventEmitter = require("events");
 
 class Quizlet extends EventEmitter {
-    constructor(pin, name, userImage) {
+    constructor(pin, name, opt = {}) {
+        if (!pin) throw new Error("No PIN Provided")
         super()
-        this.userImage = userImage || "https://quizlet.com/favicon.ico"
-        this.pin = pin;
-        this.name = name;
+        this.pin = pin.toString().replace('-', '');
+        if (!name && !opt.accountName) console.warn('No name provided, defaulting to "Quizlet.JS Bot"')
+        this.name = name || "Quizlet.JS Bot";
         this.round = 0;
         this.team = null;
         this.streak = 0;
-        this.rejoin = this.#connectWithName;
+        this.userImage = opt.userImage || "https://quizlet.com/favicon.ico"
+        if (!this.userImage.match(/^https?:\/\//g)) this.userImage = `https://${this.userImage}`
+        if (!new URL(this.userImage).host.includes('quizlet.com')) {
+            this.userImage = "https://quizlet.com/favicon.ico"
+            console.warn('Image provided does start belong to the quizlet domain, switching to the quizlet icon')
+        }
+        this.accountName = opt.accountName || undefined
     }
 
     async #getTokenAndId() {
+
+        var headers = {
+            'User-Agent': 'Quizlet.JS'
+        }
+
+        if (this.accountName) {
+            var data = await got(`https://quizlet.com/webapi/3.2/users?filters={"username":"${this.accountName}"}`, { headers }).json();
+            this.accountInfo = data.responses[0].models.user[0]
+            if (!this.accountInfo) throw new Error('Invalid Account Username');
+            headers.Cookie = `ab.storage.userId.6f8c2b67-8bd5-42f6-9c5f-571d9701f693={"g":"${this.accountInfo.id}"}"}`
+            this.name = this.accountInfo.firstName
+            this.userImage = this.accountInfo._imageUrl
+        }
+
         var data = await got("https://quizlet.com/live", {
-            headers: {
-                "user-agent": "quizlet.js"
-            }
+            headers: headers
         }).text();
 
         return {
@@ -29,6 +48,7 @@ class Quizlet extends EventEmitter {
     }
 
     async #checkGameInstance() {
+
         var data = await got(`https://quizlet.com/webapi/3.2/game-instances?filters=%7B%22gameCode%22%3A%22${this.pin}%22%2C%22isInProgress%22%3Atrue%2C%22isDeleted%22%3Afalse%7D&perPage=500`, {
             headers: {
                 "user-agent": "quizlet.js"
@@ -42,9 +62,11 @@ class Quizlet extends EventEmitter {
 
     async joinGame() {
         this.#checkGameInstance()
-
-        var {token, playerId} = await this.#getTokenAndId();
-        this.playerId = playerId;
+        if (!this.playerId || !this.playerToken) {
+            var {token, playerId} = await this.#getTokenAndId();
+            this.playerId = playerId;
+            this.playerToken = token;
+        }
         var data = await got(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nmp37wm`, {
             headers: {
                 "user-agent": "quizlet.js"
@@ -68,24 +90,9 @@ class Quizlet extends EventEmitter {
             }
         }).text();
 
-        await this.#connectToSocket(token, sid);
-        
-        await this.#connectWithName();
-
-        this.emit("connect");
-
-        this.socket.on("message", await this.#messageHandler.bind(this))
-    }
-
-    async #connectToSocket(token, sid) {
-        this.socket = new ws(`wss://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=websocket&sid=${sid}`, [], {
-            headers: {
-                'user-agent': 'quizlet.js'
-            }
-        });
-
+        this.socket = new ws(`wss://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=websocket&sid=${sid}`, { headers: { 'User-Agent': 'quizlet.js' }})
         await new Promise(resolve => {
-            this.socket.on("open", () => {
+            this.socket.once("open", () => {
                 this.socket.send("2probe")
                 this.socket.once("message", (m) => {
                     if (m != "3probe") throw new Error("Socket probing failed. Expected `3probe`, got `" + m + "`")
@@ -98,14 +105,17 @@ class Quizlet extends EventEmitter {
             this.socket.send("5")
             resolve()
         })
+        
+        await this.#connectWithName();
+        this.emit("connect");
 
-        return;
+        this.socket.on("message", await this.#messageHandler.bind(this))
     }
-    
+
     async #connectWithName() {
         this.socket.send(`42["player-join",{"username":"${this.name}","image":"${this.userImage}"}]`)
         await new Promise(resolve => {
-            this.socket.once("message", (m) => {
+            this.socket.once('message', (m) => {
                 this.#handleGameState(m)
                 this.answerTypes = {
                     prompt: this.gameState.options.promptWith == 2 ? "definition" : "word",
@@ -129,6 +139,7 @@ class Quizlet extends EventEmitter {
     #handleGameState(m) {
         this.gameState = JSON.parse(m.slice(2))[1];
         if (JSON.parse(m.slice(2))[0] == "game-error") {
+            if (this.gameState.type = "ERROR_TYPES.DUPLICATE_PLAYER_NAME") throw new Error(`Duplicate player name; The name "${this.name}" is already in use.`)
             throw new Error('Invalid Game State: ' + this.gameState.type)
         }
         if (this.gameState.teams) {
@@ -144,7 +155,7 @@ class Quizlet extends EventEmitter {
     }
 
     async #messageHandler(m) {
-        if (m == 2) {
+        if (m == "2") {
             await this.socket.send("3");
             return;
         }
@@ -217,7 +228,7 @@ class Quizlet extends EventEmitter {
     }
 
     async leave() {
-        await this.socket.disconnect();
+        await this.socket.close();
         this.emit('disconnect');
     }
 }
