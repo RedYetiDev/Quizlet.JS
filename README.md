@@ -1,6 +1,6 @@
 # Quizlet.JS
 > **Better** documentation is at [**quizlet.js.org**](//quizlet.js.org).
-##### Version 0.0.1 Alpha
+##### Version 1
 
 
 ## Installing from [NPM](https://www.npmjs.com/package/quizlet.js)
