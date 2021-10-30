@@ -14,10 +14,18 @@ To setup Quizlet.JS, first require `quizlet.js` in your script
 ```js
 var Quizlet = require("quizlet.js");
 ```
-Next, you want to create a new instance of `Quizlet` for the [Quizlet Live](https://quizlet.live) game.
+
+Create a new instance of `Quizlet` for the [Quizlet Live](https://quizlet.live) game.
 ```js
-var Game = new Quizlet(Pin, Name, *Optional* Profile Picture)
+var Game = new Quizlet.Live(Pin, "Name", *Optional: {Advanced}*)
 ```
+
+### Here are the options for the JSON `Advanced` Parameter:
+- `userImage`:
+    The `userImage` parameter is the client's user image. **The image *must* be a valid URL from the `quizlet.com` hostname**
+- `accountName`:
+    The `accountName` parameter is the account username if you want to login. If this parameter is set, the user image, and user name are overrided by the account name.
+
 
 Once your game instance has been created, you actually need to join the game
 ```js
@@ -38,9 +46,6 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
 
 - ### `teamAssignments`
     The `teamAssignments` event returns 2 arguments: The team name and the players in said team. The event signifies when the host has assigned teams.
-
-- ### Maybe coming soon: `gameStart`
-    The `gameStart` event returns no arguments, and signifies the start of the game<sup><a>1</a></sup>
 
 - ### `gameOver`
     The `gameOver` event returns 1 argument: A boolean value whether the client's team won the game. This event signifies the game ending
@@ -69,17 +74,5 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
     The `rejoin` functions rejoins the game after an exit, no arguments or returns.
 
 ## Bugs
-- The Bot must rejoin the game in when the host hits `replay` at the end of the game. (By ending and restarting the script)
 
 If you find any new bugs, please report an issue or a pull request. If you have any questions or comments, you can either create an issue, or email me at [redyetidev@gmail.com](mailto:redyetidev@gmail.com?subject=Quizlet.JS)
-
-## Features Needing Testing
-- Need to test how the client reacts to duplicate terms (If multiple terms have the same answer or same name).
-- Game replay testing.
-
-
----
-## Footnotes
-<a>1</a>: The `gameStart` event has no real purpose, becuase it would be called when the first question is sent, meaning that `gameStart`, and `question` would be called at the same time.
-
-<a>2</a>: The `userImage` param needs a little bit more testing and may not work.
