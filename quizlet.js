@@ -223,8 +223,6 @@ class Quizlet extends EventEmitter {
                 // This is emitted when the question belongs to another player, but is also emitted when there is some kind of invalid streak/round error.
                 return;
             }
-        } else {
-            throw new Error("Invalid Game Type: " + this.gameState.type)
         }
 
         var term = this.gameState.terms.filter(term => this.team.streaks[this.streak].prompts[this.round] == term.id)[0]

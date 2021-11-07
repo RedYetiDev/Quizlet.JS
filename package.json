@@ -1,6 +1,6 @@
 {
   "name": "quizlet.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Quizlet.JS is a node.js client for the Quizlet Live API",
   "main": "quizlet.js",
   "repository": {
