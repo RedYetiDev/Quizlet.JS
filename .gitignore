@@ -2,3 +2,5 @@ node_modules
 .DS_Store
 test.js
 .npmignore
+quizlet.dev.js
+test.dev.js

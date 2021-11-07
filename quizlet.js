@@ -31,7 +31,7 @@ class Quizlet extends EventEmitter {
             var data = await got(`https://quizlet.com/webapi/3.2/users?filters={"username":"${this.accountName}"}`, { headers }).json();
             this.accountInfo = data.responses[0].models.user[0]
             if (!this.accountInfo) throw new Error('Invalid Account Username');
-            headers.Cookie = `ab.storage.userId.6f8c2b67-8bd5-42f6-9c5f-571d9701f693={"g":"${this.accountInfo.id}"}"}`
+            headers.Cookie = `ab.storage.userId.6f8c2b67-8bd5-42f6-9c5f-571d9701f693={"g":"${this.accountInfo.id}"}`
             this.name = this.accountInfo.firstName
             this.userImage = this.accountInfo._imageUrl
         }
@@ -214,14 +214,11 @@ class Quizlet extends EventEmitter {
 
     async #runQuestion() {
         var possibleAnswers = [];
-        if (this.gameState.type == 2) {
-            this.team.streaks[this.streak].roundTerms[0].forEach(id => {
-                possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
-            })
-        } else if (this.gameState.type == 1) {
-            this.team.streaks[this.streak].terms[this.playerId].forEach(id => {
-                possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
-            })
+        this.team.streaks[this.streak].terms[this.playerId].forEach(id => {
+            possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
+        })
+        
+         if (this.gameState.type == 1) {
             if (!this.team.streaks[this.streak].terms[this.playerId].includes(this.team.streaks[this.streak].prompts[this.round])) {
                 // This is emitted when the question belongs to another player, but is also emitted when there is some kind of invalid streak/round error.
                 return;
