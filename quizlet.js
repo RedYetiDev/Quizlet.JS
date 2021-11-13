@@ -19,6 +19,7 @@ class Quizlet extends EventEmitter {
             console.warn('Image provided does start belong to the quizlet domain, switching to the quizlet icon')
         }
         this.accountName = opt.accountName || undefined
+        this.on('error', error => {throw new Error(error)})
     }
 
     async #getTokenAndId() {
@@ -30,7 +31,7 @@ class Quizlet extends EventEmitter {
         if (this.accountName) {
             var data = await got(`https://quizlet.com/webapi/3.2/users?filters={"username":"${this.accountName}"}`, { headers }).json();
             this.accountInfo = data.responses[0].models.user[0]
-            if (!this.accountInfo) throw new Error('Invalid Account Username');
+            if (!this.accountInfo) this.emit('error','Invalid Account Username');
             headers.Cookie = `ab.storage.userId.6f8c2b67-8bd5-42f6-9c5f-571d9701f693={"g":"${this.accountInfo.id}"}`
             this.name = this.accountInfo.firstName
             this.userImage = this.accountInfo._imageUrl
@@ -54,7 +55,7 @@ class Quizlet extends EventEmitter {
             }
         }).json();
 
-        if (data.responses[0].models.gameInstance.length < 1) throw new Error(`Game Not Found: ${this.pin}`);
+        if (data.responses[0].models.gameInstance.length < 1) this.emit('error',`Game Not Found: ${this.pin}`);
 
         return;
     }
@@ -81,7 +82,7 @@ class Quizlet extends EventEmitter {
             body: "40"
         }).text();
 
-        if (d != "ok") throw new Error("The server did not response with `ok`: " + d)
+        if (d != "ok") this.emit('error',"The server did not response with `ok`: " + d)
 
         var data = await got(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nn1KLw9&sid=${sid}`, {
             headers: {
@@ -94,7 +95,7 @@ class Quizlet extends EventEmitter {
             this.socket.once("open", () => {
                 this.socket.send("2probe")
                 this.socket.once("message", (m) => {
-                    if (m != "3probe") throw new Error("Socket probing failed. Expected `3probe`, got `" + m + "`")
+                    if (m != "3probe") this.emit('error',"Socket probing failed. Expected `3probe`, got `" + m + "`")
                     resolve()
                 })
             })
@@ -138,8 +139,8 @@ class Quizlet extends EventEmitter {
     #handleGameState(m) {
         this.gameState = JSON.parse(m.slice(2))[1];
         if (JSON.parse(m.slice(2))[0] == "game-error") {
-            if (this.gameState.type = "ERROR_TYPES.DUPLICATE_PLAYER_NAME") throw new Error(`Duplicate player name; The name "${this.name}" is already in use.`)
-            throw new Error('Invalid Game State: ' + this.gameState.type)
+            if (this.gameState.type = "ERROR_TYPES.DUPLICATE_PLAYER_NAME") this.emit('error',`Duplicate player name; The name "${this.name}" is already in use.`)
+            this.emit('error','Invalid Game State: ' + this.gameState.type)
         }
         if (this.gameState.teams && this.team) {
             this.#handleTeamAssignments()
