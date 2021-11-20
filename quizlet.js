@@ -215,19 +215,17 @@ class Quizlet extends EventEmitter {
 
     async #runQuestion() {
         var possibleAnswers = [];
+        var term = this.gameState.terms.filter(term => this.team.streaks[this.streak].prompts[this.round] == term.id)[0]
         this.team.streaks[this.streak].terms[this.playerId].forEach(id => {
             possibleAnswers.push(this.gameState.terms.filter(term => term.id == id)[0].definition)
         })
         
          if (this.gameState.type == 1) {
             if (!this.team.streaks[this.streak].terms[this.playerId].includes(this.team.streaks[this.streak].prompts[this.round])) {
-                // This is emitted when the question belongs to another player, but is also emitted when there is some kind of invalid streak/round error.
+                this.emit('teamQuestion', term.word, possibleAnswers, term.definition)
                 return;
             }
         }
-
-        var term = this.gameState.terms.filter(term => this.team.streaks[this.streak].prompts[this.round] == term.id)[0]
-
         this.emit('question', term.word, possibleAnswers, term.definition);
     }
 
