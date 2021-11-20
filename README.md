@@ -56,6 +56,12 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
 - ### `question`
     The `question` event returns 3 arguments: The question, The possible answers, and the correct answer. This event signifies a question being asked and the client having the answer.
 
+- ### `teamQuestion`
+    The `teamQuestion` event returns 3 arguments: The question, The possible answers, and the correct answer. This event signifies another team member receiving a question
+
+- ### `error`
+    The `error` event returns 1 argument, the error thrown. This event only emits when there is an error.
+
 ## Functions
 
 - ### `contructor`
@@ -69,9 +75,6 @@ Because `Quizlet.JS` is based on `EventEmitter`, any changes in the game will be
 
 - ### `leave`
     The `leave` functions leaves the game, and has no arguments, the function also returns nothing.
-
-- ### `rejoin`
-    The `rejoin` functions rejoins the game after an exit, no arguments or returns.
 
 ## Bugs
 
