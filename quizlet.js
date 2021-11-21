@@ -19,7 +19,6 @@ class Quizlet extends EventEmitter {
             console.warn('Image provided does start belong to the quizlet domain, switching to the quizlet icon')
         }
         this.accountName = opt.accountName || undefined
-        this.on('error', error => {throw new Error(error)})
     }
 
     async #getTokenAndId() {
@@ -209,6 +208,8 @@ class Quizlet extends EventEmitter {
                         this.#runQuestion()
                     }
                 }
+            } else {
+                this.emit('otherAnswer', pm.answer.isCorrect, this.gameState.players[pm.answer.playerId.toString()].username)
             }
         }
     }
