@@ -2,7 +2,10 @@
 const got = require("got");
 const ws = require("ws");
 const EventEmitter = require("events");
-
+const qData = {
+    endpoint: 'https://quizlet.com/webapi/3.2',
+    apiVersion: '45944'
+}
 class Quizlet extends EventEmitter {
     constructor(pin, name, opt = {}) {
         if (!pin) throw new Error("No PIN Provided")
@@ -28,7 +31,7 @@ class Quizlet extends EventEmitter {
         }
 
         if (this.accountName) {
-            var data = await got(`https://quizlet.com/webapi/3.2/users?filters={"username":"${this.accountName}"}`, { headers }).json();
+            var data = await got(`${qData.endpoint}/users?filters={"username":"${this.accountName}"}`, { headers }).json();
             this.accountInfo = data.responses[0].models.user[0]
             if (!this.accountInfo) this.emit('error','Invalid Account Username');
             headers.Cookie = `ab.storage.userId.6f8c2b67-8bd5-42f6-9c5f-571d9701f693={"g":"${this.accountInfo.id}"}`
@@ -48,7 +51,7 @@ class Quizlet extends EventEmitter {
 
     async #checkGameInstance() {
 
-        var data = await got(`https://quizlet.com/webapi/3.2/game-instances?filters=%7B%22gameCode%22%3A%22${this.pin}%22%2C%22isInProgress%22%3Atrue%2C%22isDeleted%22%3Afalse%7D&perPage=500`, {
+        var data = await got(`${qData.endpoint}/game-instances?filters=%7B%22gameCode%22%3A%22${this.pin}%22%2C%22isInProgress%22%3Atrue%2C%22isDeleted%22%3Afalse%7D&perPage=500`, {
             headers: {
                 "user-agent": "quizlet.js"
             }
@@ -66,7 +69,7 @@ class Quizlet extends EventEmitter {
             this.playerId = playerId;
             this.playerToken = token;
         }
-        var data = await got(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nmp37wm`, {
+        var data = await got(`https://quizlet.com/multiplayer/1/${qData.apiVersion}/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nmp37wm`, {
             headers: {
                 "user-agent": "quizlet.js"
             }
@@ -74,7 +77,7 @@ class Quizlet extends EventEmitter {
 
         var sid = JSON.parse(data.slice(1)).sid;
 
-        var d = await got.post(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nn1KLw7&sid=${sid}`, {
+        var d = await got.post(`https://quizlet.com/multiplayer/1/${qData.apiVersion}/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nn1KLw7&sid=${sid}`, {
             headers: {
                 "user-agent": "quizlet.js"
             },
@@ -83,13 +86,13 @@ class Quizlet extends EventEmitter {
 
         if (d != "ok") this.emit('error',"The server did not response with `ok`: " + d)
 
-        var data = await got(`https://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nn1KLw9&sid=${sid}`, {
+        var data = await got(`https://quizlet.com/multiplayer/1/${qData.apiVersion}/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=polling&t=Nn1KLw9&sid=${sid}`, {
             headers: {
                 "user-agent": "quizlet.js"
             }
         }).text();
 
-        this.socket = new ws(`wss://quizlet.com/multiplayer/1/45697/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=websocket&sid=${sid}`, { headers: { 'User-Agent': 'quizlet.js' }})
+        this.socket = new ws(`wss://quizlet.com/multiplayer/1/${qData.apiVersion}/${this.pin}/games/socket/?gameId=${this.pin}&token=${token}&EIO=4&transport=websocket&sid=${sid}`, { headers: { 'User-Agent': 'quizlet.js' }})
         await new Promise(resolve => {
             this.socket.once("open", () => {
                 this.socket.send("2probe")
