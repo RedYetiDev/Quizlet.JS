@@ -10,13 +10,13 @@ permalink: /Examples
 ## Setting Up
 ```js
 const Quizlet = require('quizlet.js');
-const Game = new Quizlet(123456, 'RedYetiDev', 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947');
+const Game = new Quizlet(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
 ```
 
 ## Full Game Example
 ```js
 const Quizlet = require('quizlet.js');
-const Game = new Quizlet(123456, 'RedYetiDev', 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947');
+const Game = new Quizlet(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
 Game.joinGame();
 Game.on('connect', () => {
      console.log('Connected to the game')
