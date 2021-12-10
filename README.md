@@ -17,7 +17,7 @@ var Quizlet = require("quizlet.js");
 
 Create a new instance of `Quizlet` for the [Quizlet Live](https://quizlet.live) game.
 ```js
-var Game = new Quizlet.Live(Pin, "Name", *Optional: {Advanced}*)
+var Game = new Quizlet(Pin, "Name", *Optional: {Advanced}*)
 ```
 
 ### Here are the options for the JSON `Advanced` Parameter:
