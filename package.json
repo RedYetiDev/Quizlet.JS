@@ -2,7 +2,7 @@
   "name": "quizlet.js",
   "version": "1.0.3",
   "description": "Quizlet.JS is a node.js client for the Quizlet Live API",
-  "main": "quizlet.js",
+  "main": "./src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/RedYetiDev/Quizlet.JS.git"
