@@ -2,9 +2,10 @@
 layout: default
 title: Replay
 nav_order: 7
-description: "Quizlet.JS Replay Event"
-permalink: /Replay
-parent: Events
+description: "Quizlet.JS Classic Replay Event"
+permalink: /Classic/Events/Replay
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `replay` Event

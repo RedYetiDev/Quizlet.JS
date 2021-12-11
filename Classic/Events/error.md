@@ -2,9 +2,10 @@
 layout: default
 title: Error
 nav_order: 1
-description: "Quizlet.JS Error Event"
-permalink: /Error
-parent: Events
+description: "Quizlet.JS Classic Error Event"
+permalink: /Classic/Events/Error
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `error` Event

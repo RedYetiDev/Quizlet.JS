@@ -7,11 +7,9 @@ permalink: /
 ---
 
 # Quizlet.JS
-> #### Version 1.0
+> #### Version 2.0.0
 
-### Table Of Contents:
+### [Installing](/Installing)
 
-1. [Install](Installing)
-2. [Setup](Setup)
-3. [Using](Using) \| [Events](Events) \| [Functions](Functions)
-4. [Examples](Examples)
+### [Quizlet Live Classic](/Classic)
+### [Quizlet Live Checkpoint](/Checkpoint)

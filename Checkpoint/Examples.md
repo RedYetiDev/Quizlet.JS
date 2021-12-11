@@ -1,28 +1,26 @@
 ---
 layout: default
-title: Examples
-nav_order: 5
-description: "Quizlet.JS Examples"
-permalink: /Examples
+title: Checkpoint Examples
+nav_order: 3
+description: "Quizlet.JS Checkpoint Examples"
+permalink: /Checkpoint/Examples
+parent: Checkpoint
 ---
 
 # Examples
 ## Setting Up
 ```js
 const Quizlet = require('quizlet.js');
-const Game = new Quizlet(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
+const Game = new Quizlet.checkpoint(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
 ```
 
 ## Full Game Example
 ```js
 const Quizlet = require('quizlet.js');
-const Game = new Quizlet(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
+const Game = new Quizlet.checkpoint(123456, 'RedYetiDev', { userImage: 'https://avatars.githubusercontent.com/u/38299977?u=ec372abc7c7ecc544c62afccfc2b1deebb8e3947'});
 Game.joinGame();
 Game.on('connect', () => {
      console.log('Connected to the game')
-});
-Game.on('teamAssignments', (teamName, playerNames) => {
-     console.log(`You are on team ${teamName} with: ${playerNames.join(', ')}`);
 });
 Game.on('question', (questionName, possibleAnswers, correctAnswer) => {
      console.log(`Question: ${questionName}`);

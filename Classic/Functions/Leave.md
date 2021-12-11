@@ -3,8 +3,9 @@ layout: default
 title: Leave
 nav_order: 5
 description: "Quizlet.JS Leave Function"
-permalink: /Leave
-parent: Functions
+permalink: /Classic/Functions/Leave
+parent: Classic Functions
+grand_parent: Classic
 ---
 
 # Quizlet.JS `leave` Function

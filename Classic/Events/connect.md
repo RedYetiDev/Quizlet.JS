@@ -2,9 +2,10 @@
 layout: default
 title: Connect
 nav_order: 1
-description: "Quizlet.JS Connect Event"
-permalink: /Connect
-parent: Events
+description: "Quizlet.JS Classic Connect Event"
+permalink: /Classic/Events/Connect
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `connect` Event

@@ -2,9 +2,10 @@
 layout: default
 title: Disconnect
 nav_order: 2
-description: "Quizlet.JS Disconnect Event"
-permalink: /Disconnect
-parent: Events
+description: "Quizlet.JS Classic Disconnect Event"
+permalink: /Classic/Events/Disconnect
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `disconnect` Event

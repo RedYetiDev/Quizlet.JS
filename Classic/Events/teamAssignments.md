@@ -2,9 +2,10 @@
 layout: default
 title: teamAssignments
 nav_order: 3
-description: "Quizlet.JS teamAssignments Event"
-permalink: /teamAssignments
-parent: Events
+description: "Quizlet.JS Classic teamAssignments Event"
+permalink: /Classic/Events/teamAssignments
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `teamAssignments` Event

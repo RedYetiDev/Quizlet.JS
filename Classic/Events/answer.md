@@ -2,9 +2,10 @@
 layout: default
 title: Answer
 nav_order: 5
-description: "Quizlet.JS Answer Event"
-permalink: /AnswerEvent
-parent: Events
+description: "Quizlet.JS Classic Answer Event"
+permalink: /Classic/Events/answer
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `answer` Event

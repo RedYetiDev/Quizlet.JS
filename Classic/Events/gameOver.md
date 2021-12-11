@@ -2,9 +2,10 @@
 layout: default
 title: gameOver
 nav_order: 4
-description: "Quizlet.JS gameOver Event"
-permalink: /gameOver
-parent: Events
+description: "Quizlet.JS Classic gameOver Event"
+permalink: /Classic/Events/gameOver
+parent: Classic Events
+grand_parent: Classic
 ---
 
 # Quizlet.JS `gameOver` Event
