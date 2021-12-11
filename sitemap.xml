@@ -4,145 +4,179 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
 <url>
   <loc>https://quizlet.js.org/</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Installing</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Setup</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/Connect</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/Error</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/Disconnect</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/teamAssignments</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/gameOver</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/answer</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/Question</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Events/Replay</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Functions</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Functions/Constructor</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Functions/joinGame</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Functions/Answer</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Functions/Leave</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Examples</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Classic/Using</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/Connect</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/Error</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/Disconnect</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/gameOver</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/Question</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Events/Replay</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Functions</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Functions/Constructor</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Functions/joinGame</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Functions/Answer</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Functions/Leave</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Examples</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://quizlet.js.org/Checkpoint/Using</loc>
+  <lastmod>2021-12-11T15:39:54+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
