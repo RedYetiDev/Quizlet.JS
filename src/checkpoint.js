@@ -73,7 +73,7 @@ class Checkpoint extends Live {
     }
     async answer(a) {
         this.isCorrect = this.currentPossibleAnswers.indexOf(a) == this.currentQuestion.questionConfig.answer.value
-        await this.socket.send(`42["submit-answer","${this.playerNumber}",${this.currentQuestion.studiableItemId},${this.currentPossibleAnswers.indexOf(a)},${isCorrect}]`)
+        await this.socket.send(`42["submit-answer","${this.playerNumber}",${this.currentQuestion.studiableItemId},${this.currentPossibleAnswers.indexOf(a)},${this.isCorrect}]`)
     }
     async #runQuestion() {
         this.currentPossibleAnswers = []
