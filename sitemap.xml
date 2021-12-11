@@ -18,64 +18,131 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Events</loc>
+  <loc>https://quizlet.js.org/Classic</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Connect</loc>
+  <loc>https://quizlet.js.org/Classic/Events</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Disconnect</loc>
+  <loc>https://quizlet.js.org/Classic/Events/Connect</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/teamAssignments</loc>
+  <loc>https://quizlet.js.org/Classic/Events/Error</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/gameOver</loc>
+  <loc>https://quizlet.js.org/Classic/Events/Disconnect</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/AnswerEvent</loc>
-  <lastmod>2021-10-23T14:43:33+00:00</lastmod>
+  <loc>https://quizlet.js.org/Classic/Events/teamAssignments</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Question</loc>
+  <loc>https://quizlet.js.org/Classic/Events/gameOver</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Replay</loc>
+  <loc>https://quizlet.js.org/Classic/Events/answer</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Using</loc>
+  <loc>https://quizlet.js.org/Classic/Events/Question</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Examples</loc>
+  <loc>https://quizlet.js.org/Classic/Events/Replay</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Functions</loc>
+  <loc>https://quizlet.js.org/Classic/Functions</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Constructor</loc>
+  <loc>https://quizlet.js.org/Classic/Functions/Constructor</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/joinGame</loc>
+  <loc>https://quizlet.js.org/Classic/Functions/joinGame</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/AnswerFunction</loc>
+  <loc>https://quizlet.js.org/Classic/Functions/Answer</loc>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://quizlet.js.org/Leave</loc>
+  <loc>https://quizlet.js.org/Classic/Functions/Leave</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Classic/Examples</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Classic/Using</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/Connect</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/Error</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/Disconnect</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/gameOver</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/Question</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Events/Replay</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Functions</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Functions/Constructor</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Functions/joinGame</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Functions/Answer</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Functions/Leave</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Examples</loc>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://quizlet.js.org/Checkpoint/Using</loc>
   <priority>0.80</priority>
 </url>
 
