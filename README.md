@@ -2,10 +2,10 @@
 > **Better and More organized** documentation is at [**quizlet.js.org**](//quizlet.js.org).
 ### Version 2.0.0
 ## Installing from [NPM](https://www.npmjs.com/package/quizlet.js)
+[![Quizlet.JS](https://nodei.co/npm/quizlet.js.png?mini=true)](https://www.npmjs.com/package/quizlet.js)
 <!-- #region Classic-->
 <details>
     <summary><b>Quizlet Live Classic</b></summary>
-[![Quizlet.JS](https://nodei.co/npm/quizlet.js.png?mini=true)](https://www.npmjs.com/package/quizlet.js)
 
 ---
 
@@ -18,11 +18,9 @@ var Quizlet = require("quizlet.js");
 
 Create a new instance of `Quizlet` for the [Quizlet Live Classic](https://quizlet.live) game.
 ```js
-<<<<<<< HEAD
 var Game = new Quizlet.classic(Pin, "Name", *Optional: {Advanced}*)
 =======
 var Game = new Quizlet(Pin, "Name", *Optional: {Advanced}*)
->>>>>>> 94855774ac03a586485294d438430c6cdaab3753
 ```
 
 ### Here are the options for the JSON `Advanced` Parameter:
