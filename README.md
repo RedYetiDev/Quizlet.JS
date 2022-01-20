@@ -1,6 +1,6 @@
 # Quizlet.JS
 > **Better and More organized** documentation is at [**quizlet.js.org**](//quizlet.js.org).
-### Version 2.0.0
+### Version 2.0.0 (Soon to be ESM instead of CommonJS)
 ## Installing from [NPM](https://www.npmjs.com/package/quizlet.js)
 [![Quizlet.JS](https://nodei.co/npm/quizlet.js.png?mini=true)](https://www.npmjs.com/package/quizlet.js)
 <!-- #region Classic-->
