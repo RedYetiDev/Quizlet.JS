@@ -1,6 +1,6 @@
 {
   "name": "quizlet.js",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Quizlet.JS is a node.js client for the Quizlet Live API",
   "main": "./src/index.js",
   "repository": {
@@ -18,8 +18,9 @@
   "bugs": "https://github.com/RedYetiDev/Quizlet.JS/issues",
   "author": "RedYetiDev <redyetidev@gmail.com> (https://github.com/redyetidev)",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
-    "got": "^11.8.2",
-    "ws": "^8.2.3"
+    "got": "^12.5.1",
+    "socket.io-client": "^4.5.2"
   }
 }
