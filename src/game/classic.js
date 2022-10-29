@@ -52,7 +52,7 @@ export default class Classic extends Live {
          * @readonly
          * @type {object}
          */
-        this.gameInstance = Classic.getGame(this.pin);
+        this.gameInstance = await Classic.getGame(this.pin);
 
         /**
          * The game statuses
