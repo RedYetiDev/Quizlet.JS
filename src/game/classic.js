@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 import { QuizletLiveError, QuizletAPIError, RequestHandler } from "../api.js";
 import StudySet, { Term } from "../set.js";
 import Live from "./live.js";
-
+import got from "got";
 /**
  * The classic game client
  * @class Classic
