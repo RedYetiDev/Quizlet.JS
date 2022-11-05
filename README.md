@@ -1,6 +1,9 @@
 # Quizlet.JS
 > ## Version 3.0
-
+<br/><br/>
+> ## ⚠ Quizlet Live is currently unstable. ⚠
+> ### If you try to use Quizlet Live, you **_will_** experience bugs. 
+<br/><br/>
 > Stable NPM:<br/>[![NPM](https://img.shields.io/npm/v/quizlet.js?color=4f12d7&logo=npm&style=for-the-badge&label=Version)](https://npmjs.com/package/quizlet.js)<br/>
 
 > Stable GitHub:<br/>[![GitHub release](https://img.shields.io/github/v/release/redyetidev/quizlet.js?label=version&color=4f12d7&logo=github&style=for-the-badge)](https://github.com/redyetidev/quizlet.js/releases)<br/>
