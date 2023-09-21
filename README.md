@@ -1,3 +1,6 @@
+> This package is currently unstable, but is under development.
+> Version 3.0 was great, but I can't wait to release version 4.0
+
 # Quizlet.JS
 > ## Version 3.0
 <br/><br/>
