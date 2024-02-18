@@ -1,6 +1,5 @@
-> This package is currently unstable, but is under development.
-> Version 3.0 was great, but I can't wait to release version 4.0
-
+# 🤒 Quizlet.JS is not currently stable enough for use. Over the coming ~weeks~ months, patches will be coming out.
+> ## Hopefully, a stable version will be out by May (But Quizlet's API is always changing)
 # Quizlet.JS
 > ## Version 3.0
 <br/><br/>
