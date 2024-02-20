@@ -1,5 +1,13 @@
-# 🤒 Quizlet.JS is not currently stable enough for use. Over the coming ~weeks~ months, patches will be coming out.
-> ## Hopefully, a stable version will be out by May (But Quizlet's API is always changing)
+# 🤒 Quizlet.JS is not currently stable enough for use.
+> ## Patch Progress
+> > X/Y/Z represents the Jest results **Success**/**Skipped**/**Failed**
+> - [x] API Request Handler (0/0/0)
+> - [x] Class (4/1/0)
+> - [x] User (3/1/0)
+> - [ ] StudySet
+> - [ ] Folder
+> - [ ] Live (this will take awhile!) 
+> 
 # Quizlet.JS
 > ## Version 3.0
 <br/><br/>
